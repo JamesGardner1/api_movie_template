@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,10 +51,21 @@ public class MovieListFragment extends Fragment implements MovieListAdapter.List
 
 
         // TODO initialize mMovieViewModel
+        mMovieViewModel = ViewModelProviders.of(getActivity()).get(MovieViewModel.class);
 
         // TODO use mMovieViewModel to get all movies. Update movieListAdapter.
+        mMovieViewModel.getAllMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                Log.d(TAG, "Movies changed: " + movies);
+                MovieListFragment.this.mMovies = movies;
+                MovieListFragment.this.movieListAdapter.setMovies(movies);
+                MovieListFragment.this.movieListAdapter.notifyDataSetChanged();
+            }
+        });
+    };
 
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

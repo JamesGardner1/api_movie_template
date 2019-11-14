@@ -15,6 +15,8 @@ import retrofit2.http.Path;
 public interface MovieService {
 
     // TODO get all movies
+    @GET("movies/")
+    Call<List<Movie>> getAllMovies();
 
 
     // Example - get movie by ID
@@ -23,11 +25,17 @@ public interface MovieService {
 
 
     // TODO POST insert movie
+    @POST("movies/")
+    Call<Void> insert(@Body Movie movie);
 
 
     // TODO PATCH update movie
+    @PATCH("movies/{id}/")
+    Call<Void> udpate(@Body Movie m, @Path("id") int id);
 
 
     // TODO DELETE delete movie
+    @DELETE("movies/{id}/")
+    Call<Void> delete(@Path("id") int id);
 
 }
